@@ -52,3 +52,31 @@ li,
 ul {
   list-style-type: none;
 }
+
+
+.container{
+    max-width: 1200px;
+    border: 1px green solid;
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    align-items: center;
+}
+header{
+    width: 100%;
+    text-align: center;
+}
+form{
+    border: red 1px solid;
+}
+.book-display{
+    border: 1px blue solid;
+    display: flex;
+    flex-wrap: wrap;
+}
+.book{
+    border: 1px orange solid;
+    flex: 1 1 100px;
+    max-width: 200px;
+    aspect-ratio: 2 / 3;
+}
