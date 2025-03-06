@@ -34,7 +34,7 @@ function addBooktoLibrary(bookData) {
       bookData.author,
       bookData.page_number,
       bookData.read_check
-    )
+    ) 
   );
   let div = document.createElement("div");
   div.classList.add("book");
