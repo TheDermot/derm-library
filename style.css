@@ -98,7 +98,7 @@ main {
   aspect-ratio: 2 / 3;
 }
 /* The Modal (background) */
-.book-modal {
+.modal {
   display:; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -118,6 +118,7 @@ main {
   padding: 0px 20px 20px 20px;
   border: 1px solid #888;
   width: 20rem; /* Could be more or less, depending on screen size */
+  aspect-ratio: 2/3;
   display: flex;
   flex-direction: column;
 }
