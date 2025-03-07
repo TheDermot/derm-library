@@ -1,4 +1,32 @@
-const myLibrary = [];
+const myLibrary = [
+  {
+    author: "J.K. Rowling",
+    imgUrl:
+      "https://books.google.com/books/content?id=5iTebBW-w7QC&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE722qbZwjp6SyCjpY_tPcmnr8VTCQJ9nzsJtIWziWqgPM7BgZKAhyYTD9E0jKKXVqHAxkXVn9Hn4km-a5i-nrsHJovbPlNWa6bnR0bZvwoe5wi-79cKxAgwDt3-yy2VnHDrVhvWY&source=gbs_api",
+    isbn: "9781781100509",
+    read: undefined,
+    pages: "343",
+    title: "Harry Potter and the Chamber of Secrets",
+  },
+  {
+    author: "J.R.R. Tolkien",
+    imgUrl:
+      "https://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE72IRSbF3xa2_F7FeKiRb2W3nw4bzhhPYW51swpsRoG2TSQhK8q4A1-qEyAQ2qrUmC0tggPeaDDzafupJqquMyKQXpYX6HT5jdf63-_4aLEeMAxdywNPdXvhU7o8hf8-IFmf45QK&source=gbs_api",
+    isbn: "9780547951973",
+    pages: "331",
+    read: "on",
+    title: "The Hobbit",
+  },
+  {
+    author: "J.K. Rowling",
+    imgUrl:
+      "https://books.google.com/books/content?id=R7YsowJI9-IC&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE73p4zaPWYLXVedCGwI3NrhGiRxJtVP79dyxxTAYWYauBKJnrZUvdBKXAnqFqqNf7oiZMLPQev-eVmOIE-xRNzKvRs64-7oXS3yB2tKL5of2vkP0G2dNgVVM25EjrMtaCXGUbsQF&source=gbs_api",
+    isbn: "9781781100547",
+    pages: "663",
+    read: "on",
+    title: "Harry Potter and the Half-Blood Prince",
+  },
+];
 
 const addBook = document.getElementById("add-book");
 const bookModal = document.getElementById("add-book-modal");
@@ -23,7 +51,7 @@ const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
 
 //book count
-let bookCount = 0; //change when using local
+let bookCount = myLibrary.length; //change when using local
 
 const searchBook = async function (text) {
   const url = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
@@ -45,6 +73,49 @@ function Book(title, author, pages, read, imgUrl, isbn) {
   this.imgUrl = imgUrl;
   this.isbn = isbn;
 }
+//display books
+const displayLibrary = () => {
+  myLibrary.forEach((book) => {
+    let div = document.createElement("div");
+    div.setAttribute("book-number", bookCount);
+    div.classList.add("book");
+
+    let img = document.createElement("img");
+    img.src = book.imgUrl || "default_book_cover.webp";
+    img.alt = `${book.title} by ${book.author}`;
+
+    //book details
+    let overlay = document.createElement("div");
+    overlay.classList.add("book-details");
+
+    // Add title
+    let title = document.createElement("h3");
+    title.textContent = book.title;
+    overlay.appendChild(title);
+
+    // Add author
+    let author = document.createElement("p");
+    author.textContent = book.author;
+    overlay.appendChild(author);
+
+    // Add page count
+    let pageCount = document.createElement("p");
+    pageCount.classList.add(".page-count");
+    pageCount.textContent = book.page_number;
+    overlay.appendChild(pageCount);
+    // Add read status
+    let readStatus = document.createElement("p");
+    readStatus.classList.add("read-status");
+    readStatus.textContent = book.read_check ? "Read" : "Not read";
+    overlay.appendChild(readStatus);
+
+    div.appendChild(img);
+    div.appendChild(overlay);
+    bookDisplay.appendChild(div);
+  });
+};
+displayLibrary();
+
 //create book
 function addBooktoLibrary(bookData) {
   console.log(bookData);
@@ -173,8 +244,8 @@ viewMore.addEventListener("click", (e) => {});
 searchResultForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const bookData = new FormData(e.target);
-  console.log("bookdata",bookData);
+  console.log("bookdata", bookData);
   const bookDataValues = Object.fromEntries(bookData);
-  console.log("values",bookDataValues);
+  console.log("values", bookDataValues);
   addBooktoLibrary(bookDataValues);
 });
