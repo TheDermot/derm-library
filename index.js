@@ -12,7 +12,7 @@ const searchAddBook = document.getElementById("search-add-form");
 const addBookForm = document.getElementById("book-form");
 const bookDisplay = document.querySelector(".book-display");
 //search modal buttons
-const viewMore = document.querySelector(".view-more"); 
+const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
 
 //book count
@@ -30,11 +30,12 @@ const searchBook = async function (text) {
   return data;
 };
 //book constructor
-function Book(title, author, pages, read) {
+function Book(title, author, pages, read, img) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.img = img;
 }
 //create book
 function addBooktoLibrary(bookData) {
@@ -44,14 +45,20 @@ function addBooktoLibrary(bookData) {
       bookData.title,
       bookData.author,
       bookData.page_number,
-      bookData.read_check
+      bookData.read_check,
+      bookData.img_url
     )
   );
-  bookCount++
+  bookCount++;
   let div = document.createElement("div");
-  div.setAttribute('book-number', bookCount)
+  div.setAttribute("book-number", bookCount);
   div.classList.add("book");
   div.textContent = bookData.title;
+  let img = document.createElement("img");
+  img.src = bookData.img_url || "default_book_cover.webp";
+  img.alt = `${bookData.title} by ${bookData.author}`;
+
+  div.appendChild(img);
   bookDisplay.appendChild(div);
 }
 
@@ -107,9 +114,5 @@ searchAddBook.addEventListener("submit", async (e) => {
   searchResultModal.style.display = "block";
 });
 
-viewMore.addEventListener("click", ()=>{
-
-})
-submitBook.addEventListener("click", ()=>{
-
-})
+viewMore.addEventListener("click", () => {});
+submitBook.addEventListener("click", () => {});
