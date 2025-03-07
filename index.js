@@ -4,7 +4,7 @@ const myLibrary = [
     imgUrl:
       "https://books.google.com/books/content?id=5iTebBW-w7QC&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE722qbZwjp6SyCjpY_tPcmnr8VTCQJ9nzsJtIWziWqgPM7BgZKAhyYTD9E0jKKXVqHAxkXVn9Hn4km-a5i-nrsHJovbPlNWa6bnR0bZvwoe5wi-79cKxAgwDt3-yy2VnHDrVhvWY&source=gbs_api",
     isbn: "9781781100509",
-    read: undefined,
+    read: false,
     pages: "343",
     title: "Harry Potter and the Chamber of Secrets",
   },
@@ -14,7 +14,7 @@ const myLibrary = [
       "https://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE72IRSbF3xa2_F7FeKiRb2W3nw4bzhhPYW51swpsRoG2TSQhK8q4A1-qEyAQ2qrUmC0tggPeaDDzafupJqquMyKQXpYX6HT5jdf63-_4aLEeMAxdywNPdXvhU7o8hf8-IFmf45QK&source=gbs_api",
     isbn: "9780547951973",
     pages: "331",
-    read: "on",
+    read: true,
     title: "The Hobbit",
   },
   {
@@ -23,7 +23,7 @@ const myLibrary = [
       "https://books.google.com/books/content?id=R7YsowJI9-IC&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE73p4zaPWYLXVedCGwI3NrhGiRxJtVP79dyxxTAYWYauBKJnrZUvdBKXAnqFqqNf7oiZMLPQev-eVmOIE-xRNzKvRs64-7oXS3yB2tKL5of2vkP0G2dNgVVM25EjrMtaCXGUbsQF&source=gbs_api",
     isbn: "9781781100547",
     pages: "663",
-    read: "on",
+    read: true,
     title: "Harry Potter and the Half-Blood Prince",
   },
 ];
@@ -101,12 +101,12 @@ const displayBook = (bookData) => {
   // Add page count
   let pageCount = document.createElement("p");
   pageCount.classList.add(".page-count");
-  pageCount.textContent = bookData.page_number;
+  pageCount.textContent = bookData.pages;
   overlay.appendChild(pageCount);
   // Add read status
   let readStatus = document.createElement("p");
   readStatus.classList.add("read-status");
-  readStatus.textContent = bookData.read_check ? "Read" : "Not read";
+  readStatus.textContent = bookData.read ? "Read" : "Not read";
   overlay.appendChild(readStatus);
 
   div.appendChild(img);
@@ -123,14 +123,15 @@ displayLibrary();
 
 //create book
 function addBooktoLibrary(bookData) {
-  console.log(bookData);
+  // Convert the checkbox value to a boolean
+  bookData.read = bookData.read === "on"; // "on" becomes true, undefined becomes false because === returns true or false
   myLibrary.push(
     new Book(
       bookData.title,
       bookData.author,
-      bookData.page_number,
-      bookData.read_check,
-      bookData.img_url,
+      bookData.pages,
+      bookData.read,
+      bookData.imgUrl,
       bookData.isbn
     )
   );
