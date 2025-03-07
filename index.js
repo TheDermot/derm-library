@@ -116,7 +116,7 @@ const displayBook = (bookData) => {
 //display books
 const displayLibrary = () => {
   myLibrary.forEach((book) => {
-   displayBook(book)
+    displayBook(book);
   });
 };
 displayLibrary();
@@ -151,6 +151,7 @@ closeModal.addEventListener("click", (e) => {
 searchModalClose.addEventListener("click", (e) => {
   console.log(e);
   searchResultModal.style.display = "none";
+  bookModal.style.display = "block";
 });
 addBookForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -209,6 +210,7 @@ searchAddBook.addEventListener("submit", async (e) => {
   searchModalImg.src = bestImageUrl;
 
   searchResultModal.style.display = "block";
+  bookModal.style.display = "none";
 });
 
 viewMore.addEventListener("click", (e) => {});
