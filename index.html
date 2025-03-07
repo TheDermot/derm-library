@@ -74,6 +74,8 @@
                 <input type="text" name="author" id="author" />
                 <label for="page_number">Pages</label>
                 <input type="number" name="page_number" id="page_number" />
+                <label for=img_url">Book Cover Url</label>
+                <input type="url" id="img_url" name="img_url">
                 <div>
                   <label for="read_check">Read</label>
                   <input type="checkbox" name="read_check" id="read_check" />
@@ -83,15 +85,19 @@
             </div>
           </div>
         </div>
-        <div id="search-result-modal" class="modal">
+        <!-- <div id="search-result-modal" class="modal">
           <div class="book-modal-content">
             <span class="close" id="search-modal-close">&times;</span>
             <h2>Search Results</h2>
             <img id="search-modal-img" src="" alt="" />
             <p id="search-modal-title"></p>
             <p id="search-modal-author"></p>
+            <div class="search-actions">
+              <button class="submit-book">Add Book</button>
+              <button class="view-more">View More</button>
+            </div>
           </div>
-        </div>
+        </div> -->
         <div class="book-display">
           <div class="book">Book</div>
         </div>

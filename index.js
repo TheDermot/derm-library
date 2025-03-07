@@ -11,6 +11,12 @@ const searchModalAuthor = document.getElementById("search-modal-author");
 const searchAddBook = document.getElementById("search-add-form");
 const addBookForm = document.getElementById("book-form");
 const bookDisplay = document.querySelector(".book-display");
+//search modal buttons
+const viewMore = document.querySelector(".view-more"); 
+const submitBook = document.querySelector(".submit-book");
+
+//book count
+let bookCount = 0; //change when using local
 
 const searchBook = async function (text) {
   const url = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
@@ -41,7 +47,9 @@ function addBooktoLibrary(bookData) {
       bookData.read_check
     )
   );
+  bookCount++
   let div = document.createElement("div");
+  div.setAttribute('book-number', bookCount)
   div.classList.add("book");
   div.textContent = bookData.title;
   bookDisplay.appendChild(div);
@@ -98,3 +106,10 @@ searchAddBook.addEventListener("submit", async (e) => {
   searchModalAuthor.textContent = author;
   searchResultModal.style.display = "block";
 });
+
+viewMore.addEventListener("click", ()=>{
+
+})
+submitBook.addEventListener("click", ()=>{
+
+})
