@@ -50,15 +50,43 @@ function addBooktoLibrary(bookData) {
     )
   );
   bookCount++;
+
+  //main book card
   let div = document.createElement("div");
   div.setAttribute("book-number", bookCount);
   div.classList.add("book");
-  div.textContent = bookData.title;
+
   let img = document.createElement("img");
   img.src = bookData.img_url || "default_book_cover.webp";
   img.alt = `${bookData.title} by ${bookData.author}`;
 
+  //book details
+  let overlay = document.createElement("div");
+  overlay.classList.add("book-details");
+
+  // Add title
+  let title = document.createElement("h3");
+  title.textContent = bookData.title;
+  overlay.appendChild(title);
+
+  // Add author
+  let author = document.createElement("p");
+  author.textContent = bookData.author;
+  overlay.appendChild(author);
+
+  // Add page count
+  let pageCount = document.createElement("p");
+  pageCount.classList.add(".page-count");
+  pageCount.textContent = bookData.page_number;
+  overlay.appendChild(pageCount);
+  // Add read status
+  let readStatus = document.createElement("p");
+  readStatus.classList.add("read-status");
+  readStatus.textContent = bookData.read_check ? "Read" : "Not read";
+  overlay.appendChild(readStatus);
+
   div.appendChild(img);
+  div.appendChild(overlay);
   bookDisplay.appendChild(div);
 }
 
