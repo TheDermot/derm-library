@@ -5,12 +5,19 @@ const bookModal = document.getElementById("add-book-modal");
 const searchResultModal = document.getElementById("search-result-modal");
 const closeModal = document.querySelector(".close");
 const searchModalClose = document.getElementById("search-modal-close");
-const searchModalImg = document.getElementById("search-modal-img");
-const searchModalTitle = document.getElementById("search-modal-title");
-const searchModalAuthor = document.getElementById("search-modal-author");
 const searchAddBook = document.getElementById("search-add-form");
 const addBookForm = document.getElementById("book-form");
 const bookDisplay = document.querySelector(".book-display");
+
+const searchResultForm = document.getElementById("search-result-form");
+const searchModalImg = document.getElementById("search-modal-img");
+//searh modal inputs
+const searchModalTitleInput = document.getElementById("search-modal-title");
+const searchModalAuthorInput = document.getElementById("search-modal-author");
+const searchModalPagesInput = document.getElementById("search-modal-pages");
+const searchModalImgUrlInput = document.getElementById("search-modal-img-url");
+const searchModalReadInput = document.getElementById("search-modal-read");
+const searchModalIsbnInput = document.getElementById("search-modal-isbn");
 //search modal buttons
 const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
@@ -30,12 +37,13 @@ const searchBook = async function (text) {
   return data;
 };
 //book constructor
-function Book(title, author, pages, read, img) {
+function Book(title, author, pages, read, imgUrl, isbn) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
-  this.img = img;
+  this.imgUrl = imgUrl;
+  this.isbn = isbn;
 }
 //create book
 function addBooktoLibrary(bookData) {
@@ -46,7 +54,8 @@ function addBooktoLibrary(bookData) {
       bookData.author,
       bookData.page_number,
       bookData.read_check,
-      bookData.img_url
+      bookData.img_url,
+      bookData.isbn
     )
   );
   bookCount++;
@@ -112,18 +121,26 @@ searchAddBook.addEventListener("submit", async (e) => {
   e.preventDefault();
   const bookData = new FormData(e.target);
   const bookDataValues = Object.fromEntries(bookData);
-  console.log(bookDataValues.add_search_title);
+  console.log(bookDataValues);
+
   let searchResults = await searchBook(bookDataValues.add_search_title);
-  const title = searchResults.items[0].volumeInfo?.title || "Title not found";
-  const author =
-    searchResults.items[0].volumeInfo?.authors?.join(", ") ||
-    "Author not found";
+  if (!searchResults.items || searchResults.items.length === 0) {
+    alert("No books found. Try a different search.");
+    return;
+  }
+
+  const bookInfo = searchResults.items[0].volumeInfo;
+  const title = bookInfo?.title || "Title not found";
+  const author = bookInfo?.authors?.join(", ") || "Author not found";
+  const pages = bookInfo?.pageCount || "";
   const bookImgId = searchResults.items[0].id;
+  const isbn = bookInfo?.industryIdentifiers?.[0]?.identifier || "";
+
+  // Get high-resolution cover image
   const imgCover = await fetch(
     `https://www.googleapis.com/books/v1/volumes/${bookImgId}`
   );
-  imgData = await imgCover.json();
-  console.log("SS", imgData);
+  const imgData = await imgCover.json();
 
   // Extract image links in order of preference (highest quality first)
   const imageLinks = imgData.volumeInfo?.imageLinks;
@@ -132,15 +149,32 @@ searchAddBook.addEventListener("submit", async (e) => {
     imageLinks?.medium ||
     imageLinks?.small ||
     imageLinks?.thumbnail ||
-    imageLinks?.smallThumbnail;
+    imageLinks?.smallThumbnail ||
+    "default_book_cover.webp";
+
   if (bestImageUrl && bestImageUrl.startsWith("http:")) {
     bestImageUrl = bestImageUrl.replace("http:", "https:");
-    searchModalImg.src = bestImageUrl;
   }
-  searchModalTitle.textContent = title;
-  searchModalAuthor.textContent = author;
+
+  // Fill the form fields
+  searchModalTitleInput.value = title;
+  searchModalAuthorInput.value = author;
+  searchModalPagesInput.value = pages;
+  searchModalImgUrlInput.value = bestImageUrl;
+  searchModalIsbnInput.value = isbn;
+
+  //preview
+  searchModalImg.src = bestImageUrl;
+
   searchResultModal.style.display = "block";
 });
 
-viewMore.addEventListener("click", () => {});
-submitBook.addEventListener("click", () => {});
+viewMore.addEventListener("click", (e) => {});
+searchResultForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const bookData = new FormData(e.target);
+  console.log("bookdata",bookData);
+  const bookDataValues = Object.fromEntries(bookData);
+  console.log("values",bookDataValues);
+  addBooktoLibrary(bookDataValues);
+});

@@ -79,7 +79,7 @@ main {
   gap: 6px;
 }
 #book-form,
-#search-add-form {
+#search-add-form, .form-books{
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
