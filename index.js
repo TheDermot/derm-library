@@ -51,7 +51,7 @@ const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
 
 //book count
-let bookCount = myLibrary.length; //change when using local
+let bookCount = 0; //change when using local
 
 const searchBook = async function (text) {
   const url = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
@@ -73,71 +73,15 @@ function Book(title, author, pages, read, imgUrl, isbn) {
   this.imgUrl = imgUrl;
   this.isbn = isbn;
 }
-//display books
-const displayLibrary = () => {
-  myLibrary.forEach((book) => {
-    let div = document.createElement("div");
-    div.setAttribute("book-number", bookCount);
-    div.classList.add("book");
 
-    let img = document.createElement("img");
-    img.src = book.imgUrl || "default_book_cover.webp";
-    img.alt = `${book.title} by ${book.author}`;
-
-    //book details
-    let overlay = document.createElement("div");
-    overlay.classList.add("book-details");
-
-    // Add title
-    let title = document.createElement("h3");
-    title.textContent = book.title;
-    overlay.appendChild(title);
-
-    // Add author
-    let author = document.createElement("p");
-    author.textContent = book.author;
-    overlay.appendChild(author);
-
-    // Add page count
-    let pageCount = document.createElement("p");
-    pageCount.classList.add(".page-count");
-    pageCount.textContent = book.page_number;
-    overlay.appendChild(pageCount);
-    // Add read status
-    let readStatus = document.createElement("p");
-    readStatus.classList.add("read-status");
-    readStatus.textContent = book.read_check ? "Read" : "Not read";
-    overlay.appendChild(readStatus);
-
-    div.appendChild(img);
-    div.appendChild(overlay);
-    bookDisplay.appendChild(div);
-  });
-};
-displayLibrary();
-
-//create book
-function addBooktoLibrary(bookData) {
-  console.log(bookData);
-  myLibrary.push(
-    new Book(
-      bookData.title,
-      bookData.author,
-      bookData.page_number,
-      bookData.read_check,
-      bookData.img_url,
-      bookData.isbn
-    )
-  );
-  bookCount++;
-
-  //main book card
+//add book to display
+const displayBook = (bookData) => {
   let div = document.createElement("div");
   div.setAttribute("book-number", bookCount);
   div.classList.add("book");
 
   let img = document.createElement("img");
-  img.src = bookData.img_url || "default_book_cover.webp";
+  img.src = bookData.imgUrl || "default_book_cover.webp";
   img.alt = `${bookData.title} by ${bookData.author}`;
 
   //book details
@@ -168,6 +112,32 @@ function addBooktoLibrary(bookData) {
   div.appendChild(img);
   div.appendChild(overlay);
   bookDisplay.appendChild(div);
+};
+//display books
+const displayLibrary = () => {
+  myLibrary.forEach((book) => {
+   displayBook(book)
+  });
+};
+displayLibrary();
+
+//create book
+function addBooktoLibrary(bookData) {
+  console.log(bookData);
+  myLibrary.push(
+    new Book(
+      bookData.title,
+      bookData.author,
+      bookData.page_number,
+      bookData.read_check,
+      bookData.img_url,
+      bookData.isbn
+    )
+  );
+  bookCount++;
+
+  //main book card
+  displayBook(bookData);
 }
 
 addBook.addEventListener("click", (e) => {
