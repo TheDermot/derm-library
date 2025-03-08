@@ -79,7 +79,8 @@ main {
   gap: 6px;
 }
 #book-form,
-#search-add-form, .form-books{
+#search-add-form,
+.form-books {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -100,7 +101,7 @@ main {
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .book:hover {
   transform: translateY(-1px);
@@ -154,9 +155,13 @@ main {
   border-radius: var(--radius);
   font-size: 0.8rem;
 }
+.read-status:hover{
+  cursor: pointer;
+  transform: scale(1.1);
+}
 /* The Modal (background) */
 .modal {
-  display: ; /* Hidden by default */
+  display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;

@@ -7,6 +7,9 @@ const myLibrary = [
     read: false,
     pages: "343",
     title: "Harry Potter and the Chamber of Secrets",
+    toggleRead: function () {
+      this.read = !this.read;
+    },
   },
   {
     author: "J.R.R. Tolkien",
@@ -16,6 +19,9 @@ const myLibrary = [
     pages: "331",
     read: true,
     title: "The Hobbit",
+    toggleRead: function () {
+      this.read = !this.read;
+    },
   },
   {
     author: "J.K. Rowling",
@@ -25,9 +31,11 @@ const myLibrary = [
     pages: "663",
     read: true,
     title: "Harry Potter and the Half-Blood Prince",
+    toggleRead: function () {
+      this.read = !this.read;
+    },
   },
 ];
-
 const addBook = document.getElementById("add-book");
 const bookModal = document.getElementById("add-book-modal");
 const searchResultModal = document.getElementById("search-result-modal");
@@ -51,7 +59,7 @@ const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
 
 //book count
-let bookCount = 0; //change when using local
+let = 0; //change when using local
 
 const searchBook = async function (text) {
   const url = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
@@ -72,12 +80,15 @@ function Book(title, author, pages, read, imgUrl, isbn) {
   this.read = read;
   this.imgUrl = imgUrl;
   this.isbn = isbn;
+  this.toggleRead = () => {
+    this.read = !this.read;
+  };
 }
 
 //add book to display
-const displayBook = (bookData) => {
+const displayBook = (bookData, index) => {
   let div = document.createElement("div");
-  div.setAttribute("book-number", bookCount);
+  div.setAttribute("book-number", index);
   div.classList.add("book");
 
   let img = document.createElement("img");
@@ -109,14 +120,21 @@ const displayBook = (bookData) => {
   readStatus.textContent = bookData.read ? "Read" : "Not read";
   overlay.appendChild(readStatus);
 
+  // Add click event to toggle read status
+  readStatus.addEventListener("click", (e) => {
+    console.log("book count", index);
+    myLibrary[index].toggleRead(); // Toggle the read status
+    readStatus.textContent = myLibrary[index].read ? "Read" : "Not read"; // Update the displayed text
+  });
+
   div.appendChild(img);
   div.appendChild(overlay);
   bookDisplay.appendChild(div);
 };
 //display books
 const displayLibrary = () => {
-  myLibrary.forEach((book) => {
-    displayBook(book);
+  myLibrary.forEach((book, index) => {
+    displayBook(book, index);
   });
 };
 displayLibrary();
@@ -135,10 +153,9 @@ function addBooktoLibrary(bookData) {
       bookData.isbn
     )
   );
-  bookCount++;
 
   //main book card
-  displayBook(bookData);
+  displayBook(bookData, myLibrary.length - 1);
 }
 
 addBook.addEventListener("click", (e) => {
