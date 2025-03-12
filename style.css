@@ -161,7 +161,7 @@ main {
 }
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
+  display: ; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -184,8 +184,15 @@ main {
   display: flex;
   flex-direction: column;
 }
+.book-modal-content h2{
+  text-align: center;
+  padding-bottom: 0.6rem;
+}
 .search-result-preview{
   border: var(--border) 1px solid;
+  max-width: 150px;
+  aspect-ratio: 1 / 1.5;
+  margin-inline: auto;
 }
 /* The Close Button */
 .close {
