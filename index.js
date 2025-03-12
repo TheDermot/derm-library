@@ -54,6 +54,7 @@ const searchModalPagesInput = document.getElementById("search-modal-pages");
 const searchModalImgUrlInput = document.getElementById("search-modal-img-url");
 const searchModalReadInput = document.getElementById("search-modal-read");
 const searchModalIsbnInput = document.getElementById("search-modal-isbn");
+const viewImgsButton = document.querySelector(".view-images");
 //search modal buttons
 const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
@@ -177,6 +178,22 @@ addBookForm.addEventListener("submit", (e) => {
   console.log(bookDataValues);
   addBooktoLibrary(bookDataValues);
 });
+
+const getBestImgLink = (imageLinks) => {
+  let bestImageUrl =
+    imageLinks?.large ||
+    imageLinks?.medium ||
+    imageLinks?.small ||
+    imageLinks?.thumbnail ||
+    imageLinks?.smallThumbnail ||
+    "default_book_cover.webp";
+
+  if (bestImageUrl && bestImageUrl.startsWith("http:")) {
+    bestImageUrl = bestImageUrl.replace("http:", "https:");
+  }
+  return bestImageUrl;
+};
+
 searchAddBook.addEventListener("submit", async (e) => {
   e.preventDefault();
   const bookData = new FormData(e.target);
@@ -205,17 +222,7 @@ searchAddBook.addEventListener("submit", async (e) => {
   // Extract image links in order of preference (highest quality first)
   const imageLinks = imgData.volumeInfo?.imageLinks;
   console.log("imgs", imageLinks);
-  let bestImageUrl =
-    imageLinks?.large ||
-    imageLinks?.medium ||
-    imageLinks?.small ||
-    imageLinks?.thumbnail ||
-    imageLinks?.smallThumbnail ||
-    "default_book_cover.webp";
-
-  if (bestImageUrl && bestImageUrl.startsWith("http:")) {
-    bestImageUrl = bestImageUrl.replace("http:", "https:");
-  }
+  let bestImageUrl = getBestImgLink(imageLinks);
 
   // Fill the form fields
   searchModalTitleInput.value = title;
