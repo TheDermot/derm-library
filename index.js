@@ -204,6 +204,7 @@ searchAddBook.addEventListener("submit", async (e) => {
 
   // Extract image links in order of preference (highest quality first)
   const imageLinks = imgData.volumeInfo?.imageLinks;
+  console.log("imgs", imageLinks);
   let bestImageUrl =
     imageLinks?.large ||
     imageLinks?.medium ||

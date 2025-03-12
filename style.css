@@ -184,7 +184,9 @@ main {
   display: flex;
   flex-direction: column;
 }
-
+.search-result-preview{
+  border: var(--border) 1px solid;
+}
 /* The Close Button */
 .close {
   color: #aaa;
