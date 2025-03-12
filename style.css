@@ -85,7 +85,8 @@ main {
   flex-direction: column;
   gap: 0.3rem;
 }
-.book-display {
+.book-display,
+#choose-img-content {
   border: 1px blue solid;
   display: flex;
   flex-wrap: wrap;
@@ -93,7 +94,8 @@ main {
   width: 80%;
   margin-inline: auto;
 }
-.book {
+.book,
+#choose-img-content div {
   border: 1px orange solid;
   flex: 1 1 200px;
   max-width: 200px;
@@ -107,7 +109,8 @@ main {
   transform: translateY(-1px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-.book img {
+.book img,
+#choose-img-content div img {
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -155,13 +158,13 @@ main {
   border-radius: var(--radius);
   font-size: 0.8rem;
 }
-.read-status:hover{
+.read-status:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
 /* The Modal (background) */
 .modal {
-  display: ; /* Hidden by default */
+  display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -184,15 +187,18 @@ main {
   display: flex;
   flex-direction: column;
 }
-.book-modal-content h2{
+.book-modal-content h2 {
   text-align: center;
   padding-bottom: 0.6rem;
 }
-.search-result-preview{
+.search-result-preview {
   border: var(--border) 1px solid;
   max-width: 150px;
   aspect-ratio: 1 / 1.5;
   margin-inline: auto;
+}
+.search-result-preview img {
+  height: 100%;
 }
 /* The Close Button */
 .close {
@@ -207,4 +213,11 @@ main {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+#choose-img-content {
+  display: flex;
+  height: 40rem;
+  background-color: whitesmoke;
+  margin-top: 10vh;
+  overflow-y: scroll;
 }

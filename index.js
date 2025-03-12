@@ -36,6 +36,7 @@ const myLibrary = [
     },
   },
 ];
+let searchResults;
 const addBook = document.getElementById("add-book");
 const bookModal = document.getElementById("add-book-modal");
 const searchResultModal = document.getElementById("search-result-modal");
@@ -200,7 +201,7 @@ searchAddBook.addEventListener("submit", async (e) => {
   const bookDataValues = Object.fromEntries(bookData);
   console.log(bookDataValues);
 
-  let searchResults = await searchBook(bookDataValues.add_search_title);
+  searchResults = await searchBook(bookDataValues.add_search_title);
   if (!searchResults.items || searchResults.items.length === 0) {
     alert("No books found. Try a different search.");
     return;
@@ -246,4 +247,32 @@ searchResultForm.addEventListener("submit", (e) => {
   const bookDataValues = Object.fromEntries(bookData);
   console.log("values", bookDataValues);
   addBooktoLibrary(bookDataValues);
+});
+const imgModalContent = document.getElementById("choose-img-content");
+const chooseImgsModal = document.getElementById("choose-img");
+
+viewImgsButton.addEventListener("click", (e) => {
+  searchResults.items.forEach(async (result, index) => {
+    console.log(index, result);
+    let div = document.createElement("div");
+    let img = document.createElement("img");
+    const bookImgId = result.id;
+
+    // Get high-resolution cover image
+    const imgCover = await fetch(
+      `https://www.googleapis.com/books/v1/volumes/${bookImgId}`
+    );
+    const imgData = await imgCover.json();
+
+    // Extract image links in order of preference (highest quality first)
+    const imageLinks = imgData.volumeInfo?.imageLinks;
+    console.log("imgs choose ", imageLinks);
+    let bestImageUrl = getBestImgLink(imageLinks);
+    img.src = bestImageUrl || "default_book_cover.webp";
+    img.alt = `${result.title} by ${result.author}`;
+    imgModalContent.appendChild(div);
+    div.appendChild(img);
+  });
+  searchResultModal.style.display = "none";
+  chooseImgsModal.style.display = "block";
 });
