@@ -256,6 +256,7 @@ const chooseImgsModal = document.getElementById("choose-img");
 imgChooseClose.addEventListener("click", () => {
   chooseImgsModal.style.display = "none";
   searchResultModal.style.display = "block";
+  imgModalContent.innerHTML = "";
 });
 
 viewImgsButton.addEventListener("click", (e) => {
@@ -282,8 +283,13 @@ viewImgsButton.addEventListener("click", (e) => {
     div.addEventListener("click", (e) => {
       console.log(e.target.src);
       searchModalImgUrlInput.value = e.target.src;
+      searchModalImg.src = searchModalImgUrlInput.value;
     });
   });
   searchResultModal.style.display = "none";
   chooseImgsModal.style.display = "block";
+});
+searchModalImgUrlInput.addEventListener("input", (e) => {
+  console.log(searchModalImgUrlInput.value);
+  searchModalImg.src = searchModalImgUrlInput.value;
 });
