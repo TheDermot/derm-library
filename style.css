@@ -227,7 +227,12 @@ main {
   padding-inline: 1rem;
   text-align: center;
   gap: 1rem;
+  padding: 1rem;
 }
 #choose-img-covers{
   width: 100%;
+}
+#choose-img-covers div:hover{
+  cursor: pointer;
+  transform: scale(1.04);
 }
