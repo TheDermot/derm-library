@@ -86,19 +86,18 @@ main {
   gap: 0.3rem;
 }
 .book-display,
-#choose-img-content {
+#choose-img-covers {
   border: 1px blue solid;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
   width: 80%;
   margin-inline: auto;
 }
+
 .book,
-#choose-img-content div {
+#choose-img-covers div {
   border: 1px orange solid;
-  flex: 1 1 200px;
-  max-width: 200px;
   aspect-ratio: 2 / 3;
   position: relative;
   overflow: hidden;
@@ -110,7 +109,7 @@ main {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 .book img,
-#choose-img-content div img {
+#choose-img-covers div img {
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -215,9 +214,20 @@ main {
   cursor: pointer;
 }
 #choose-img-content {
-  display: flex;
-  height: 40rem;
   background-color: whitesmoke;
   margin-top: 10vh;
   overflow-y: scroll;
+  max-height: 67vh;
+  width: 80%;
+  margin-inline: auto;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding-inline: 1rem;
+  text-align: center;
+  gap: 1rem;
+}
+#choose-img-covers{
+  width: 100%;
 }

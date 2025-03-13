@@ -248,7 +248,7 @@ searchResultForm.addEventListener("submit", (e) => {
   console.log("values", bookDataValues);
   addBooktoLibrary(bookDataValues);
 });
-const imgModalContent = document.getElementById("choose-img-content");
+const imgModalContent = document.getElementById("choose-img-covers");
 const chooseImgsModal = document.getElementById("choose-img");
 
 viewImgsButton.addEventListener("click", (e) => {
