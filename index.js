@@ -59,6 +59,8 @@ const viewImgsButton = document.querySelector(".view-images");
 //search modal buttons
 const viewMore = document.querySelector(".view-more");
 const submitBook = document.querySelector(".submit-book");
+//
+const imgChooseClose = document.getElementById("img-choose-close");
 
 //book count
 let = 0; //change when using local
@@ -251,6 +253,11 @@ searchResultForm.addEventListener("submit", (e) => {
 const imgModalContent = document.getElementById("choose-img-covers");
 const chooseImgsModal = document.getElementById("choose-img");
 
+imgChooseClose.addEventListener("click", () => {
+  chooseImgsModal.style.display = "none";
+  searchResultModal.style.display = "block";
+});
+
 viewImgsButton.addEventListener("click", (e) => {
   searchResults.items.forEach(async (result, index) => {
     console.log(index, result);
@@ -272,6 +279,10 @@ viewImgsButton.addEventListener("click", (e) => {
     img.alt = `${result.title} by ${result.author}`;
     imgModalContent.appendChild(div);
     div.appendChild(img);
+    div.addEventListener("click", (e) => {
+      console.log(e.target.src);
+      searchModalImgUrlInput.value = e.target.src;
+    });
   });
   searchResultModal.style.display = "none";
   chooseImgsModal.style.display = "block";
