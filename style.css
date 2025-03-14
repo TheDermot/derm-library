@@ -229,19 +229,24 @@ main {
   gap: 1rem;
   padding: 1rem;
 }
-#choose-img-covers{
+#choose-img-covers {
   width: 100%;
 }
-#choose-img-covers div:hover{
+#choose-img-covers div:hover {
   cursor: pointer;
-  transform: scale(1.04);
+  transform: scale(1.02);
 }
-.book-delete-btn{
+.book-delete-btn {
   color: rgb(194, 40, 40);
   cursor: pointer;
   align-self: flex-end;
-    position: absolute; 
-  top: 0.5rem; 
-  right: 0.5rem; 
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
   font-size: 1.25rem;
+}
+#choose-img-covers div.selected-cover {
+  border: 2px solid rgb(0, 195, 255);
+  border-radius: 1rem;
+  transform: scale(1.02);
 }

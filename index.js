@@ -94,7 +94,7 @@ const deleteBook = (index) => {
   // let bookToDelete = document.querySelector(`[book-number ="${index}"]`);
   // console.log(bookToDelete); // doesnt work as indexes as book-numbers wont add up after deleting one book
   // bookToDelete.remove();     // BEST TO ADD UNIQUE ID TO BOOK OBJECT AND SET THAT AS DATA ATTRIBUTE WHEN ADDIN LOCAL STORAGE
-  displayLibrary();
+  displayLibrary(); //rebuild to match data attribute to correct index of myLibrary
 };
 //add book to display
 const displayBook = (bookData, index) => {
@@ -115,7 +115,7 @@ const displayBook = (bookData, index) => {
   deleteBtn.classList.add("fi", "fi-ss-trash-xmark", "book-delete-btn");
   overlay.appendChild(deleteBtn);
   deleteBtn.addEventListener("click", () => {
-    console.log("de");
+    console.log(index);
     deleteBook(index);
   });
 
@@ -297,8 +297,14 @@ viewImgsButton.addEventListener("click", (e) => {
     img.alt = `${result.title} by ${result.author}`;
     imgModalContent.appendChild(div);
     div.appendChild(img);
+    div.classList.add("img-cover");
     div.addEventListener("click", (e) => {
       console.log(e.target.src);
+      let allCovers = document.querySelectorAll(".img-cover");
+      allCovers.forEach((cover) => {
+        cover.classList.remove("selected-cover");
+      });
+      div.classList.add("selected-cover");
       searchModalImgUrlInput.value = e.target.src;
       searchModalImg.src = searchModalImgUrlInput.value;
     });
@@ -311,4 +317,4 @@ searchModalImgUrlInput.addEventListener("input", (e) => {
   searchModalImg.src = searchModalImgUrlInput.value;
 });
 
-//add delete button
+//see about add style on click of img cover and removing it if clicked again
