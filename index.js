@@ -89,6 +89,9 @@ function Book(title, author, pages, read, imgUrl, isbn) {
   };
 }
 
+const deleteBook = (index) => {
+  myLibrary.splice(index, 1);
+};
 //add book to display
 const displayBook = (bookData, index) => {
   let div = document.createElement("div");
@@ -102,6 +105,11 @@ const displayBook = (bookData, index) => {
   //book details
   let overlay = document.createElement("div");
   overlay.classList.add("book-details");
+
+  //delete button
+  let deleteBtn = document.createElement("i");
+  deleteBtn.classList.add("fi", "fi-ss-trash-xmark", "book-delete-btn");
+  overlay.appendChild(deleteBtn);
 
   // Add title
   let title = document.createElement("h3");
@@ -293,3 +301,5 @@ searchModalImgUrlInput.addEventListener("input", (e) => {
   console.log(searchModalImgUrlInput.value);
   searchModalImg.src = searchModalImgUrlInput.value;
 });
+
+//add delete button

@@ -236,3 +236,12 @@ main {
   cursor: pointer;
   transform: scale(1.04);
 }
+.book-delete-btn{
+  color: rgb(194, 40, 40);
+  cursor: pointer;
+  align-self: flex-end;
+    position: absolute; 
+  top: 0.5rem; 
+  right: 0.5rem; 
+  font-size: 1.25rem;
+}
