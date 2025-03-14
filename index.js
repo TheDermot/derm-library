@@ -279,6 +279,8 @@ imgChooseClose.addEventListener("click", () => {
 viewImgsButton.addEventListener("click", (e) => {
   searchResults.items.forEach(async (result, index) => {
     console.log(index, result);
+    let originalImgUrl = searchModalImgUrlInput.value;
+
     let div = document.createElement("div");
     let img = document.createElement("img");
     const bookImgId = result.id;
@@ -295,18 +297,29 @@ viewImgsButton.addEventListener("click", (e) => {
     let bestImageUrl = getBestImgLink(imageLinks);
     img.src = bestImageUrl || "default_book_cover.webp";
     img.alt = `${result.title} by ${result.author}`;
+    console.log(originalImgUrl, bestImageUrl);
+    // if (img.src.includes(originalImgUrl) || originalImgUrl.includes(img.src)) {// browser changes url so check id instead
+    // }
+    if (originalImgUrl.includes(bookImgId)) div.classList.add("selected-cover");
     imgModalContent.appendChild(div);
     div.appendChild(img);
     div.classList.add("img-cover");
     div.addEventListener("click", (e) => {
-      console.log(e.target.src);
-      let allCovers = document.querySelectorAll(".img-cover");
-      allCovers.forEach((cover) => {
-        cover.classList.remove("selected-cover");
-      });
-      div.classList.add("selected-cover");
-      searchModalImgUrlInput.value = e.target.src;
-      searchModalImg.src = searchModalImgUrlInput.value;
+      console.log(e);
+      if (e.currentTarget.classList.contains("selected-cover")) {
+        console.log("selected already");
+        e.currentTarget.classList.remove("selected-cover");
+        searchModalImgUrlInput.value = originalImgUrl;
+        searchModalImg.src = originalImgUrl;
+      } else {
+        let allCovers = document.querySelectorAll(".img-cover");
+        allCovers.forEach((cover) => {
+          cover.classList.remove("selected-cover");
+        });
+        div.classList.add("selected-cover");
+        searchModalImgUrlInput.value = e.target.src;
+        searchModalImg.src = searchModalImgUrlInput.value;
+      }
     });
   });
   searchResultModal.style.display = "none";
