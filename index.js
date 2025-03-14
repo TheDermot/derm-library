@@ -91,6 +91,10 @@ function Book(title, author, pages, read, imgUrl, isbn) {
 
 const deleteBook = (index) => {
   myLibrary.splice(index, 1);
+  // let bookToDelete = document.querySelector(`[book-number ="${index}"]`);
+  // console.log(bookToDelete); // doesnt work as indexes as book-numbers wont add up after deleting one book
+  // bookToDelete.remove();     // BEST TO ADD UNIQUE ID TO BOOK OBJECT AND SET THAT AS DATA ATTRIBUTE WHEN ADDIN LOCAL STORAGE
+  displayLibrary();
 };
 //add book to display
 const displayBook = (bookData, index) => {
@@ -110,6 +114,10 @@ const displayBook = (bookData, index) => {
   let deleteBtn = document.createElement("i");
   deleteBtn.classList.add("fi", "fi-ss-trash-xmark", "book-delete-btn");
   overlay.appendChild(deleteBtn);
+  deleteBtn.addEventListener("click", () => {
+    console.log("de");
+    deleteBook(index);
+  });
 
   // Add title
   let title = document.createElement("h3");
@@ -145,6 +153,7 @@ const displayBook = (bookData, index) => {
 };
 //display books
 const displayLibrary = () => {
+  bookDisplay.innerHTML = "";
   myLibrary.forEach((book, index) => {
     displayBook(book, index);
   });
