@@ -272,7 +272,7 @@ searchResultForm.addEventListener("submit", (e) => {
   const bookDataValues = Object.fromEntries(bookData);
   console.log("values", bookDataValues);
   addBooktoLibrary(bookDataValues);
-  searchModalClose.click();
+  searchModalClose.click(); //resets search modal url and closes modal
 });
 const imgModalContent = document.getElementById("choose-img-covers");
 const chooseImgsModal = document.getElementById("choose-img");
