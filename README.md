@@ -26,20 +26,23 @@ A sleek, responsive digital library app designed for book enthusiasts to manage 
 
 ## Screenshot
 
-![Derm Library](/screenshot.png)
+![Derm Library](screenshot.png)
 
 ## How to Use
 
 1. **Add Books**:
+
    - Click the "Add" button
    - Search for a book by title and/or author, or enter book details manually
    - For search results, you can view multiple cover image options and select alternatives
 
 2. **View Book Details**:
+
    - Click on any book to see its details
    - Details include title, author, page count, and read status
 
 3. **Filter & Sort**:
+
    - Use the search bar to find specific books
    - Filter by read status using the radio buttons
    - Sort your collection using the dropdown menu
@@ -59,6 +62,7 @@ A sleek, responsive digital library app designed for book enthusiasts to manage 
 ## Installation
 
 1. Clone the repository
+
    ```
    git clone https://github.com/yourusername/derm-library.git
    ```
