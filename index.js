@@ -66,6 +66,10 @@ const viewMoreClose = document.getElementById("view-more-close");
 const searchResultsContainer = document.getElementById(
   "search-results-container"
 );
+//filters
+const sortSelect = document.getElementById("sort-select");
+const readFilter = document.getElementById("read-filter");
+const searchBar = document.getElementById("search-bar");
 
 //book count
 let = 0; //change when using local
@@ -99,7 +103,7 @@ const deleteBook = (index) => {
   // let bookToDelete = document.querySelector(`[book-number ="${index}"]`);
   // console.log(bookToDelete); // doesnt work as indexes as book-numbers wont add up after deleting one book
   // bookToDelete.remove();     // BEST TO ADD UNIQUE ID TO BOOK OBJECT AND SET THAT AS DATA ATTRIBUTE WHEN ADDIN LOCAL STORAGE
-  displayLibrary(); //rebuild to match data attribute to correct index of myLibrary
+  displayLibrary(myLibrary); //rebuild to match data attribute to correct index of myLibrary
 };
 //add book to display
 const displayBook = (bookData, index) => {
@@ -179,13 +183,13 @@ const displayBook = (bookData, index) => {
   bookDisplay.appendChild(div);
 };
 //display books
-const displayLibrary = () => {
+const displayLibrary = (myLibrary) => {
   bookDisplay.innerHTML = "";
   myLibrary.forEach((book, index) => {
     displayBook(book, index);
   });
 };
-displayLibrary();
+displayLibrary(myLibrary);
 
 //create book
 function addBooktoLibrary(bookData) {
@@ -442,3 +446,46 @@ viewMoreClose.addEventListener("click", () => {
   viewMoreModal.style.display = "none";
   searchResultModal.style.display = "block";
 });
+
+const applyFiltersAndSort = () => {
+  const searchQuery = searchBar.value.toLowerCase();
+  const filterValue = document.querySelector(
+    'input[name="view"]:checked'
+  ).value;
+  const sortValue = sortSelect.value;
+
+  let filteredBooks = myLibrary.filter((book) => {
+    return (
+      book.title.toLowerCase().includes(searchQuery) ||
+      book.author.toLowerCase().includes(searchQuery)
+    );
+  });
+
+  if (filterValue === "read") {
+    filteredBooks = filteredBooks.filter((book) => book.read);
+  } else if (filterValue === "not-read") {
+    filteredBooks = filteredBooks.filter((book) => !book.read);
+  }
+
+  switch (sortValue) {
+    case "a-z":
+      filteredBooks.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case "z-a":
+      filteredBooks.sort((a, b) => b.title.localeCompare(a.title));
+      break;
+    case "newest":
+      break;
+    case "oldest":
+      filteredBooks.reverse();
+      break;
+    default:
+      break;
+  }
+
+  displayLibrary(filteredBooks);
+};
+
+searchBar.addEventListener("input", applyFiltersAndSort);
+readFilter.addEventListener("change", applyFiltersAndSort);
+sortSelect.addEventListener("change", applyFiltersAndSort);

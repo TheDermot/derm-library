@@ -147,7 +147,7 @@ h1 {
   letter-spacing: -0.05em;
 }
 
-#form-container {
+#filter-container {
   background-color: var(--paper-cream);
   padding: 1.5rem;
   border-radius: var(--radius);
@@ -155,7 +155,7 @@ h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.05);
 }
 
-#form-container,
+#filter-container,
 #read-filter {
   text-align: center;
   position: relative;
@@ -509,10 +509,9 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1.5rem 1rem;
     padding: 1rem;
-    width: 95%;
   }
 
-  #form-container {
+  #filter-container {
     padding: 1rem;
   }
 
