@@ -366,13 +366,19 @@ h1 {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
-  justify-content: center;
 }
 
 .read-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+#search-result-modal{
+  display: block;
+}
+.view-more{
+  background-color: var(--wood-light);
+  color: var(--primary-foreground);
 }
 
 /* The Close Button */
