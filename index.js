@@ -58,9 +58,14 @@ const searchModalIsbnInput = document.getElementById("search-modal-isbn");
 const viewImgsButton = document.querySelector(".view-images");
 //search modal buttons
 const viewMore = document.querySelector(".view-more");
-const submitBook = document.querySelector(".submit-book");
 //
 const imgChooseClose = document.getElementById("img-choose-close");
+//
+const viewMoreModal = document.getElementById("view-more-modal");
+const viewMoreClose = document.getElementById("view-more-close");
+const searchResultsContainer = document.getElementById(
+  "search-results-container"
+);
 
 //book count
 let = 0; //change when using local
@@ -190,6 +195,7 @@ searchModalClose.addEventListener("click", (e) => {
   console.log(e);
   searchResultModal.style.display = "none";
   bookModal.style.display = "block";
+  searchModalImg.src = "";
 });
 addBookForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -266,6 +272,7 @@ searchResultForm.addEventListener("submit", (e) => {
   const bookDataValues = Object.fromEntries(bookData);
   console.log("values", bookDataValues);
   addBooktoLibrary(bookDataValues);
+  searchModalClose.click();
 });
 const imgModalContent = document.getElementById("choose-img-covers");
 const chooseImgsModal = document.getElementById("choose-img");
@@ -330,4 +337,86 @@ searchModalImgUrlInput.addEventListener("input", (e) => {
   searchModalImg.src = searchModalImgUrlInput.value;
 });
 
-//see about add style on click of img cover and removing it if clicked again
+viewMore.addEventListener("click", (e) => {
+  // Clear previous results
+  searchResultsContainer.innerHTML = "";
+
+  // Check if we have search results
+  if (
+    !searchResults ||
+    !searchResults.items ||
+    searchResults.items.length === 0
+  ) {
+    searchResultsContainer.innerHTML = "<p>No search results found</p>";
+    return;
+  }
+
+  // Display all search results
+  searchResults.items.forEach((item, index) => {
+    const bookInfo = item.volumeInfo;
+    const title = bookInfo?.title || "Title not found";
+    const author = bookInfo?.authors?.[0] || "Author not found";
+    const bookImgId = item.id;
+
+    // Create result element
+    const resultElement = document.createElement("div");
+    resultElement.classList.add("search-result-item");
+
+    // Create image element
+    const imgElement = document.createElement("img");
+    imgElement.src =
+      bookInfo?.imageLinks?.thumbnail || "default_book_cover.webp";
+    imgElement.alt = title;
+
+    // Create title element
+    const titleElement = document.createElement("h4");
+    titleElement.textContent = title;
+
+    // Create author element
+    const authorElement = document.createElement("p");
+    authorElement.textContent = author;
+
+    // Add elements to result
+    resultElement.appendChild(imgElement);
+    resultElement.appendChild(titleElement);
+    resultElement.appendChild(authorElement);
+
+    // Add click event to select this result
+    resultElement.addEventListener("click", async () => {
+      // Get detailed information about this book
+      const imgCover = await fetch(
+        `https://www.googleapis.com/books/v1/volumes/${bookImgId}`
+      );
+      const imgData = await imgCover.json();
+      const bookInfo = imgData.volumeInfo;
+
+      // Fill the form with this book's data
+      searchModalTitleInput.value = bookInfo?.title || "";
+      searchModalAuthorInput.value = bookInfo?.authors?.join(", ") || "";
+      searchModalPagesInput.value = bookInfo?.pageCount || "";
+      const imageLinks = bookInfo?.imageLinks;
+      let bestImageUrl = getBestImgLink(imageLinks);
+      searchModalImgUrlInput.value = bestImageUrl;
+      searchModalIsbnInput.value =
+        bookInfo?.industryIdentifiers?.[0]?.identifier || "";
+
+      // Update the preview image
+      searchModalImg.src = bestImageUrl;
+
+      // Close this modal and show the book details modal
+      viewMoreModal.style.display = "none";
+      searchResultModal.style.display = "block";
+    });
+
+    // Add result to container
+    searchResultsContainer.appendChild(resultElement);
+  });
+
+  // Hide the search result modal and show the view more modal
+  searchResultModal.style.display = "none";
+  viewMoreModal.style.display = "block";
+});
+viewMoreClose.addEventListener("click", () => {
+  viewMoreModal.style.display = "none";
+  searchResultModal.style.display = "block";
+});
