@@ -102,8 +102,21 @@ function resetInputBorders(form) {
 //book count
 let = 0; //change when using local
 
-const searchBook = async function (text) {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
+const searchBook = async function (title, author) {
+  let query = "";
+
+  if (title && author) {
+    query = `intitle:${title}+inauthor:${author}`;
+  } else if (title) {
+    query = `intitle:${title}`;
+  } else if (author) {
+    query = `inauthor:${author}`;
+  } else {
+    // If neither title nor author is provided, return empty results
+    return { items: [] };
+  }
+
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw Error(response.status);
@@ -244,7 +257,8 @@ addBook.addEventListener("click", (e) => {
 closeModal.addEventListener("click", (e) => {
   console.log(e);
   resetInputBorders(addBookForm);
-  addBookForm.reset()
+  addBookForm.reset();
+  searchAddBook.reset();
   bookModal.style.display = "none";
 });
 searchModalClose.addEventListener("click", (e) => {
@@ -253,7 +267,7 @@ searchModalClose.addEventListener("click", (e) => {
   bookModal.style.display = "block";
   searchModalImg.src = "";
   resetInputBorders(searchResultForm);
-  searchResultForm.reset()
+  searchResultForm.reset();
 });
 addBookForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -294,7 +308,17 @@ searchAddBook.addEventListener("submit", async (e) => {
     console.log(bookDataValues);
 
     try {
-      searchResults = await searchBook(bookDataValues.add_search_title);
+      const searchTitle = bookDataValues.add_search_title;
+      const searchAuthor = bookDataValues.add_search_author;
+
+      // Make sure at least one field is filled
+      if (!searchTitle && !searchAuthor) {
+        alert("Please enter a title or author to search");
+        return;
+      }
+
+      // Search using both title and author
+      searchResults = await searchBook(searchTitle, searchAuthor);
       if (!searchResults.items || searchResults.items.length === 0) {
         alert("No books found. Try a different search.");
         return;
