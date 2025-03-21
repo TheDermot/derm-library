@@ -26,7 +26,7 @@ A sleek, responsive digital library app designed for book enthusiasts to manage 
 
 ## Screenshot
 
-![Derm Library Interface](screenshot.png)
+![Derm Library Interface](./screenshot.png)
 
 ## How to Use
 
