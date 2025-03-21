@@ -152,6 +152,28 @@ const displayBook = (bookData, index) => {
     readStatus.textContent = myLibrary[index].read ? "Read" : "Not read"; // Update the displayed text
   });
 
+  let lastTap = 0;
+  let hideTimeout;
+  div.addEventListener("click", () => {
+    console.log("jjgkjhk");
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      // 300ms threshold for double-tap
+      overlay.style.opacity = 0;
+      if (hideTimeout) clearTimeout(hideTimeout);
+    } else {
+      overlay.style.opacity = 1;
+
+      if (hideTimeout) clearTimeout(hideTimeout);
+
+      // Set a new timeout to hide details after 5 seconds
+      hideTimeout = setTimeout(() => {
+        overlay.style.opacity = 0;
+      }, 5000); // 5 seconds
+    }
+    lastTap = now;
+  });
+
   div.appendChild(img);
   div.appendChild(overlay);
   bookDisplay.appendChild(div);
